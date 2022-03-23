@@ -1,27 +1,26 @@
-
 mapboxgl.accessToken = 'pk.eyJ1IjoiY29kaW5na3Jpc3RpIiwiYSI6ImNsMGxpdjg2djBsYWYzY28zbTBlYjhhODcifQ.HKSiHDg3I-J2HuhECuy95w';
 
 const map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/streets-v11',
   center: [-71.104081, 42.365554],
-  zoom: 14
+  zoom: 12
 });
 
 const busMarkers = {};
 
 async function run(){
-  // get bus data    
-const locations = await getBusLocations();
-console.log(new Date());
-console.log(locations);
+  // get bus data 
+  const locations = await getBusLocations();
+  console.log(new Date());
+  console.log(locations);
 
 locations.forEach((bus) => {
   if(busMarkers[bus.id]) {
-    busMarkers[bus.id].setLngLat([bus.longitude, bus.latitude]);
+    busMarkers[bus.id].setLngLat([bus.attributes.longitude, bus.attributes.latitude]);
   } else {
     busMarkers[bus.id] = new mapboxgl.Marker()
-    .setLngLat([bus.longitude, bus.latitute])
+    .setLngLat([bus.attributes.longitude, bus.attributes.latitude])
     .addTo(map);
   }
 })
